@@ -5,7 +5,7 @@ numpy
 scikit-learn
 #catboost
 #xgboost
-#dill
+dill
 flask
 gunicorn
 #-e .
