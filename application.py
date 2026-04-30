@@ -1,9 +1,13 @@
-import pickle
+import sys
+import os
+
+# Add project root to path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from flask import Flask, request, render_template
 import numpy as np
 import pandas as pd
 
-from sklearn.preprocessing import StandardScaler
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
 application = Flask(__name__)
@@ -27,14 +31,12 @@ def predict_datapoint():
             reading_score=float(request.form.get('reading_score')),
             writing_score=float(request.form.get('writing_score'))
         )
-        
+
         pred_df = data.get_data_as_dataframe()
-        print(pred_df)
         predict_pipeline = PredictPipeline()
         results = predict_pipeline.predict(features=pred_df)
-        
+
         return render_template('home.html', results=round(results[0], 3))
-    
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
-        
