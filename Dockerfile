@@ -1,9 +1,17 @@
-FROM python:3.8-slim-buster
+# Use latest stable Python image
+FROM python:3.10-slim
+
 WORKDIR /app
-COPY . /app
 
-RUN apt update  -y && apt install awscli -y
+# Copy files
+COPY . .
 
-RUN pip install -r requirements.txt
+# Install dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "application.py"]
+# Expose port
+EXPOSE 8000
+
+# Run app
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "application:app"]
