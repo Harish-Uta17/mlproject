@@ -10,3 +10,4 @@ flask
 gunicorn
 #-e .
 streamlit
+dill
