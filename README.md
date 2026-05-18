@@ -1,43 +1,103 @@
 # Student Exam Performance Predictor
 
-An end-to-end machine learning project that predicts a student’s mathematics score from basic profile and preparation details. The project includes a trained regression pipeline, a Flask-based web application, and a polished Streamlit interface for interactive inference.
+🚀 **Live Demo:** https://studentscorepredictor-ml.streamlit.app/
 
-## Description
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-red)
+![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue)
 
-This application demonstrates a complete ML workflow from data ingestion to deployment. It reads the student dataset, performs preprocessing, trains and evaluates multiple regression models, and exposes the best-performing model through two user-facing apps:
+An end-to-end Machine Learning project that predicts a student’s mathematics score using demographic, educational, and preparation-related inputs. The project demonstrates a complete ML workflow including preprocessing, model training, evaluation, deployment, containerization, and cloud deployment.
 
-* a Flask web application for classic browser-based inference
-* a Streamlit application with a modern dashboard-style UI
+---
 
-The project is designed to be recruiter-friendly and production-oriented, with a clear separation between data processing, model training, and prediction logic.
+# Deployment
 
-## Features
+This project was successfully deployed using multiple deployment platforms and cloud technologies:
 
-* Predicts a student’s math score using demographic, educational, and preparation inputs
-* Automated preprocessing for numeric and categorical features
-* Model comparison across multiple regressors with hyperparameter tuning
-* Persistent model and preprocessor artifacts saved for inference
-* Flask web UI with HTML templates
-* Streamlit UI with a polished dashboard theme
-* Structured logging and custom exception handling
-* Modular codebase for easier maintenance and extension
+- ✅ Streamlit Community Cloud (currently active deployment)
+- ✅ AWS Elastic Beanstalk deployment for Flask application hosting
+- ✅ Dockerized deployment using:
+  - Amazon EC2
+  - Amazon ECR (Elastic Container Registry)
+  - Docker containers
 
-## Tech Stack
+The AWS EC2 + ECR deployment was tested successfully during development and learning phases. Due to higher cloud infrastructure costs, the public production deployment is currently maintained on Streamlit Cloud.
 
-* Python
-* Flask
-* Streamlit
-* Pandas
-* NumPy
-* Scikit-learn
-* CatBoost
-* XGBoost
-* Seaborn
-* Matplotlib
-* Dill
-* Gunicorn
+---
 
-## Project Architecture
+# Description
+
+This application demonstrates a complete Machine Learning workflow from data ingestion to deployment. It reads the student dataset, performs preprocessing, trains and evaluates multiple regression models, and exposes the best-performing model through two user-facing applications:
+
+- A Flask web application for browser-based inference
+- A Streamlit dashboard application with a modern interactive UI
+
+The project is designed to be recruiter-friendly and production-oriented, with a clear separation between data processing, model training, prediction pipelines, and deployment logic.
+
+This project demonstrates:
+- End-to-end ML workflow
+- Feature engineering and preprocessing
+- Model selection and hyperparameter tuning
+- Web application development
+- Docker containerization
+- AWS deployment
+- Streamlit cloud deployment
+
+---
+
+# Features
+
+- Predicts student mathematics scores using demographic and academic inputs
+- Automated preprocessing for categorical and numerical features
+- Multiple regression model comparison with hyperparameter tuning
+- Persistent model and preprocessor artifacts for inference
+- Flask-based web application
+- Streamlit interactive dashboard UI
+- Structured logging and exception handling
+- Modular and scalable project architecture
+- Cloud deployment support
+- Dockerized deployment workflow
+
+---
+
+# Tech Stack
+
+## Machine Learning & Backend
+- Python
+- Scikit-learn
+- Flask
+- Streamlit
+
+## Data Analysis & Visualization
+- Pandas
+- NumPy
+- Matplotlib
+- Seaborn
+
+## ML Models
+- Random Forest Regressor
+- Decision Tree Regressor
+- Gradient Boosting Regressor
+- Linear Regression
+- K-Neighbors Regressor
+- XGBoost
+- AdaBoost Regressor
+- CatBoost Regressor
+
+## Deployment & Cloud
+- AWS Elastic Beanstalk
+- AWS EC2
+- AWS ECR
+- Docker
+- Gunicorn
+
+## Utilities
+- Dill
+
+---
+
+# Project Architecture
 
 ```text
 mlproject/
@@ -45,145 +105,244 @@ mlproject/
 ├── streamlit_app.py             # Streamlit entry point for deployed dashboard UI
 ├── requirements.txt             # Python dependencies
 ├── setup.py                     # Package metadata and editable install support
-├── artifacts/                   # Generated training data, test data, model, preprocessor
-├── logs/                        # Runtime logs created by the custom logger
-├── notebook/                    # EDA and training notebooks
+├── artifacts/                   # Generated training data, model, preprocessor
+├── logs/                        # Runtime logs
+├── notebook/                    # EDA and model training notebooks
 │   ├── 1 . EDA STUDENT PERFORMANCE .ipynb
 │   ├── 2. MODEL TRAINING.ipynb
-│   └── data/stud.csv            # Source dataset used for training
+│   └── data/stud.csv
 ├── src/
-│   ├── exception.py             # Custom exception wrapper with detailed error messages
-│   ├── logger.py                # Central logging configuration
-│   ├── utils.py                 # Save/load helpers and model evaluation utility
+│   ├── exception.py
+│   ├── logger.py
+│   ├── utils.py
 │   ├── components/
-│   │   ├── data_ingestion.py    # Loads dataset and creates train/test splits
-│   │   ├── data_transformation.py # Builds preprocessing pipeline
-│   │   └── model_trainer.py     # Trains and evaluates candidate models
+│   │   ├── data_ingestion.py
+│   │   ├── data_transformation.py
+│   │   └── model_trainer.py
 │   └── pipeline/
-│       ├── predict_pipeline.py  # Inference pipeline and custom input wrapper
-│       └── train_pipeline.py    # Reserved for orchestration / future training flow
+│       ├── predict_pipeline.py
+│       └── train_pipeline.py
 └── templates/
-    ├── index.html               # Landing page for Flask UI
-    └── home.html                # Prediction form for Flask UI
+    ├── index.html
+    └── home.html
 ```
 
-## Data Flow
+---
 
-1. The raw dataset is loaded from `notebook/data/stud.csv`.
-2. `DataIngestion` creates an 80/20 train-test split and stores the outputs in `artifacts/`.
-3. `DataTransformation` applies:
-   * median imputation + standard scaling for numeric columns
-   * most-frequent imputation + one-hot encoding + scaling for categorical columns
-4. `ModelTrainer` evaluates multiple regressors using cross-validated grid search.
-5. The best model is saved to `artifacts/model.pkl` and the fitted preprocessor to `artifacts/preprocessor.pkl`.
-6. At inference time, `CustomData` converts user input into a dataframe and `PredictPipeline` transforms the input before generating predictions.
+# Data Flow
 
-## Installation Instructions
+1. The raw dataset is loaded from `notebook/data/stud.csv`
+2. `DataIngestion` creates train-test splits
+3. `DataTransformation` performs:
+   - Median imputation
+   - Standard scaling
+   - One-hot encoding
+4. `ModelTrainer` evaluates multiple regression models
+5. The best model is saved into:
+   - `artifacts/model.pkl`
+   - `artifacts/preprocessor.pkl`
+6. During inference:
+   - User input is converted into a dataframe
+   - Preprocessing pipeline is applied
+   - Final prediction is generated
 
-### 1. Clone or open the project
+---
+
+# Installation Instructions
+
+## 1. Clone the Repository
 
 ```bash
-cd "c:\Users\hariskumar uta\OneDrive\Dokumen\mlproject"
+git clone https://github.com/your-username/your-repository-name.git
+cd your-repository-name
 ```
 
-### 2. Create a virtual environment
+---
+
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### 3. Activate the virtual environment
+---
 
-On Windows PowerShell:
+## 3. Activate Virtual Environment
+
+### Windows PowerShell
 
 ```bash
 venv\Scripts\Activate.ps1
 ```
 
-### 4. Install dependencies
+### Linux / MacOS
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+---
 
-### Run the Flask application
+# Usage
+
+## Run Flask Application
 
 ```bash
 python application.py
 ```
 
-Open the app in your browser:
+Open in browser:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-The prediction form is available at:
+Prediction route:
 
 ```text
 http://127.0.0.1:5000/predictdata
 ```
 
-### Run the Streamlit application
+---
+
+## Run Streamlit Application
 
 ```bash
 streamlit run streamlit_app.py
 ```
 
-This launches the polished dashboard UI and reuses the same trained model artifacts.
+---
 
-## Example / Screenshots
+# Docker Deployment
 
-The project includes two user interfaces:
+## Build Docker Image
 
-* a Flask-based form UI under `/predictdata`
-* a Streamlit dashboard UI with a custom dark theme and modern card layout
+```bash
+docker build -t student-performance-predictor .
+```
 
-If you are presenting this project in a portfolio or resume, include screenshots of both interfaces here.
+## Run Docker Container
 
-## Model Details
+```bash
+docker run -p 8501:8501 student-performance-predictor
+```
 
-This project is a supervised regression problem. The target variable is `math_score`.
+---
 
-### Preprocessing
+# AWS Deployment
 
-* Numeric features: `reading_score`, `writing_score`
-* Categorical features: `gender`, `race_ethnicity`, `parental_level_of_education`, `lunch`, `test_preparation_course`
+The project was tested and deployed using:
 
-### Transformation pipeline
+- AWS Elastic Beanstalk
+- AWS EC2
+- AWS ECR
+- Docker containers
 
-* Numeric pipeline: median imputation + `StandardScaler`
-* Categorical pipeline: most-frequent imputation + `OneHotEncoder` + scaling
+Deployment workflow included:
+- Docker image creation
+- Image push to Amazon ECR
+- Container deployment on EC2
+- Gunicorn-based production serving
 
-### Model selection
+---
 
-The training pipeline compares several regression models, including:
+# Model Details
 
-* Random Forest Regressor
-* Decision Tree Regressor
-* Gradient Boosting Regressor
-* Linear Regression
-* K-Neighbors Regressor
-* XGBRegressor
-* AdaBoost Regressor
-* CatBoost Regressor
+This project is a supervised regression problem where:
 
-Each model is tuned with `GridSearchCV`, and the best model is selected based on test-set R2 score. The winning model is serialized to `artifacts/model.pkl`.
+- **Target Variable:** `math_score`
 
-## Future Improvements
+## Features Used
 
-* Add a dedicated `train_pipeline.py` orchestration script for full one-command retraining
-* Add automated unit tests for preprocessing and inference
-* Store model metrics and evaluation plots in a report folder
-* Add CI/CD for deployment validation
-* Introduce a configuration file for dataset and artifact paths
-* Add richer UI insights such as feature importance or prediction explanations
+### Numerical Features
+- `reading_score`
+- `writing_score`
 
-## Author / Credits
+### Categorical Features
+- `gender`
+- `race_ethnicity`
+- `parental_level_of_education`
+- `lunch`
+- `test_preparation_course`
 
-* Author: Harish
-* Email: utaharish78@gmail.com
+---
 
-Built as an end-to-end machine learning project for student performance prediction with Flask and Streamlit deployment options.
+# Transformation Pipeline
+
+## Numerical Pipeline
+- Median Imputation
+- StandardScaler
+
+## Categorical Pipeline
+- Most Frequent Imputation
+- OneHotEncoder
+- StandardScaler
+
+---
+
+# Model Selection
+
+The training pipeline compares multiple regression algorithms using `GridSearchCV`.
+
+Models evaluated:
+- Random Forest Regressor
+- Decision Tree Regressor
+- Gradient Boosting Regressor
+- Linear Regression
+- K-Neighbors Regressor
+- XGBRegressor
+- AdaBoost Regressor
+- CatBoost Regressor
+
+The best-performing model is selected using the highest R² score and saved for inference.
+
+---
+
+# Example / Screenshots
+
+The project contains:
+- Flask-based prediction UI
+- Streamlit interactive dashboard UI
+
+You can add screenshots here for:
+- Home page
+- Prediction dashboard
+- Model output
+- Streamlit deployment
+
+---
+
+# Future Improvements
+
+- Add CI/CD pipelines using GitHub Actions
+- Add unit and integration testing
+- Add feature importance visualization
+- Add model explainability using SHAP
+- Add retraining orchestration pipeline
+- Improve monitoring and logging
+- Deploy using Kubernetes
+
+---
+
+# Author
+
+## Harish
+
+- GitHub: https://github.com/Harish-Uta17
+- Email: utaharish78@gmail.com
+
+Built as an end-to-end Machine Learning project demonstrating ML engineering, deployment, Docker, and AWS cloud deployment workflows.
+
+---
+
+# License
+
+This project is open-source and available for educational and learning purposes.
